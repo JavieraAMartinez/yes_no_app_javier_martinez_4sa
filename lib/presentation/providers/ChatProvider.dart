@@ -8,7 +8,7 @@ class Chatprovider extends ChangeNotifier {
   ];
   //controlador para manejar la posición del scroll
   final ScrollController chatScrollController = ScrollController();
-
+  //el futur es una promesa
   Future<void> sendMessage(String text) async {
     //el mensaje siempre va a ser "me" porque yo lo envio
     final newMessage = Message(text: text, fromWho: FromWho.me);

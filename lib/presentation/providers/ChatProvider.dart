@@ -10,28 +10,32 @@ class Chatprovider extends ChangeNotifier {
   final ScrollController chatScrollController = ScrollController();
   //el futur es una promesa
   Future<void> sendMessage(String text) async {
-    //el mensaje siempre va a ser "me" porque yo lo envio
-    final newMessage = Message(text: text, fromWho: FromWho.me);
-    messageList.add(newMessage);
-    //Notifica si algo de provider cambió para que se guarde en el estado
+    if (text.trim().isNotEmpty) {
+      //el mensaje siempre va a ser "me" porque yo lo envio
+      final newMessage = Message(text: text, fromWho: FromWho.me);
+      messageList.add(newMessage);
+      //Notifica si algo de provider cambió para que se guarde en el estado
 
-    notifyListeners();
-    // Mueve el scroll hasta el final
-    moveScroollToBottom();
+      notifyListeners();
+      // Mueve el scroll hasta el final
+      moveScroollToBottom();
+    }
   }
 
   //Mover el scroll al ultimo mensaje
 
   Future<void> moveScroollToBottom() async {
-    //Un pequeño atraso en la animación para garantizar que siempre
-    //se verá aún cuando se envien mensajes cortos y rapidos
-    await Future.delayed(const Duration(seconds: 1));
-    //offset: posición de la animación
-    //maxScrollExtend determina a lo maximo que el scroll puede dar
-    chatScrollController.animateTo(
-        chatScrollController.position.maxScrollExtent,
-        duration: const Duration(microseconds: 300),
-        //Rebote al final de la animación
-        curve: Curves.easeOut);
+    if (chatScrollController.hasClients) {
+      //Un pequeño atraso en la animación para garantizar que siempre
+      //se verá aún cuando se envien mensajes cortos y rapidos
+      await Future.delayed(const Duration(seconds: 1));
+      //offset: posición de la animación
+      //maxScrollExtend determina a lo maximo que el scroll puede dar
+      chatScrollController.animateTo(
+          chatScrollController.position.maxScrollExtent,
+          duration: const Duration(microseconds: 300),
+          //Rebote al final de la animación
+          curve: Curves.easeOut);
+    }
   }
 }

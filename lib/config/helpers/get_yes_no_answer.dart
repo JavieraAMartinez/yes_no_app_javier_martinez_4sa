@@ -11,7 +11,7 @@ class GetYesNoAnswer {
     //Almacenar la peticion GET en una variable
     final response = await _dio.get('https://yesno.wtf/api');
 
-    //Gen
+    //Genenerar el error
     throw UnimplementedError();
   }
 }

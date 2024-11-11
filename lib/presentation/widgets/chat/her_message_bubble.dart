@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app_javier_martinez_4sa/domain/entities/message.dart';
 
 class HerMessageBubble extends StatelessWidget {
-  const HerMessageBubble({super.key});
+  final Message message;
+  const HerMessageBubble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,13 @@ class HerMessageBubble extends StatelessWidget {
               borderRadius: BorderRadius.circular(20)),
 
           // Separación (más bien ajuste de posición) de los mensajes
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
 
             // Texto de los mensajes
             child: Text(
-              'Hola Javi',
-              style: TextStyle(color: Colors.black),
+              message.text,
+              style: const TextStyle(color: Colors.black),
             ),
           ),
         ),
@@ -35,7 +37,8 @@ class HerMessageBubble extends StatelessWidget {
         // Separación de mensajes
         const SizedBox(height: 5),
 
-        _ImageBubble(),
+        // Pasar correctamente la URL de la imagen al _ImageBubble
+        _ImageBubble(imageUrl: message.imageUrl!),
 
         const SizedBox(height: 10),
         // Todo: Imagen
@@ -46,16 +49,21 @@ class HerMessageBubble extends StatelessWidget {
 
 // stles para widgets:
 class _ImageBubble extends StatelessWidget {
+  final String
+      imageUrl; // Agregar esta línea para almacenar la URL de la imagen.
+
+  // Constructor que recibe imageUrl.
+  const _ImageBubble({required this.imageUrl});
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return ClipRRect(
-
         // Agregar borde a la imagen
         borderRadius: BorderRadius.circular(20),
         child: Image.network(
-          'https://media.tenor.com/PEujnz2WyA0AAAAj/cecilia-patron.gif',
+          imageUrl,
           width: size.width * 0.4,
           height: 150,
           fit: BoxFit.cover,

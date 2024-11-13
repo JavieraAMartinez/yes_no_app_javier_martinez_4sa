@@ -10,16 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:yes_no_app_javier_martinez_4sa/domain/entities/message.dart';
 
 class YesNoModel {
-  String answer;
+  final String answer;
   final bool forced;
   final String image;
-
   YesNoModel({
     required this.answer,
     required this.forced,
     required this.image,
   });
-
   factory YesNoModel.fromJsonMap(Map<String, dynamic> json) => YesNoModel(
         answer: json["answer"],
         forced: json["forced"],
@@ -27,13 +25,14 @@ class YesNoModel {
       );
 
   Message toMessageEntity() => Message(
-      //condicional ternario para darle valor a los personajes
-      text: answer == "yes"
-          ? "si"
-          : answer == "no"
-              ? "No"
-              : "Quizas",
-      fromWho: FromWho.hers,
-      //seria el gif
-      imageUrl: image);
+        text: answer == 'yes'
+            ? 'si'
+            : answer == 'no'
+                ? 'No'
+                : 'Quizas',
+        fromWho: FromWho.hers,
+        //Sera el gif
+        imageUrl: image, //Esto usara la URL de la imagen
+        timestamp: DateTime.now(), //Agrega la hora actual para el timestamp
+      );
 }

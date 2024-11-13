@@ -13,59 +13,62 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //leading es el espacio que hay antes del título
-        //se envuenle en padding para que se haga pequeño
         leading: const Padding(
-          padding: EdgeInsets.all(4.0),
+          padding: EdgeInsets.all(5.0),
           child: CircleAvatar(
             backgroundImage: NetworkImage(
-                'https://media1.tenor.com/m/9pu3srSwRWUAAAAd/cecilia-patron-cecilia-patron-laviada.gif'),
+                'https://scontent.fmid7-1.fna.fbcdn.net/v/t39.30808-6/457879035_1063871048430732_2166678086760807546_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=lV1ZabmZu84Q7kNvgGH4hZq&_nc_zt=23&_nc_ht=scontent.fmid7-1.fna&_nc_gid=A26eT-hGe1TwaeJFzbwgW-Z&oh=00_AYAcJZmeqEpZKtQgBio-xP1VPsIDiX1oVImeb9PTpkEU2Q&oe=673B0F73'),
           ),
-        ), //avatar circular
-        title: const Text('Cecilia'),
-        centerTitle: true, //para forzar centrar el texto
+        ),
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Cecilia',
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              height: 2,
+            ),
+            Text(
+              'En linea',
+              style: TextStyle(fontSize: 12, color: Colors.green),
+            )
+          ],
+        ),
       ),
       body: _ChatView(),
     );
   }
 }
 
-// El body se trabaja aquí
 class _ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //pedirle al widget que este pendiente de todos los cambios
-    final chatProvider = context.watch<Chatprovider>();
-    print('Cantidad de mensajes: ${chatProvider.messageList.length}');
+    final chatProvider = context.watch<ChatProvider>();
     return SafeArea(
-      // Mueve al 'Mundo' a una zona segura
       child: Padding(
-        // Para que no estén pegados a los bordes
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            // Fondo del chat
             Expanded(
-                // ListView dice cuantos elementos tengo y puede cambiar, por eso no es const
                 child: ListView.builder(
-              itemCount: chatProvider.messageList.length,
-              // Como va a construir cada elemento
-              itemBuilder: (context, index) {
-                //Instancia de message que sabra de quien es el mensaje
-                final message = chatProvider.messageList[index];
-                return (message.fromWho == FromWho.hers)
-                    ? HerMessageBubble(
-                        message: message,
-                      )
-                    : MyMessageBubble(
-                        message: message,
-                      );
-              },
-            )),
+                    controller: chatProvider.chatScrollController,
+                    itemCount: chatProvider.messageList.length,
+                    itemBuilder: (context, index) {
+                      // Instancia del message qy¿ue sabra de quien es el mensaje
+                      final message = chatProvider.messageList[index];
+                      return (message.fromWho == FromWho.hers)
+                          ? HerMessageBubble(
+                              message: message,
+                            )
+                          : MyMessageBubble(
+                              message: message,
+                            );
+                    })),
 
             // Caja de texto
             MessageFieldBox(
-              //Una vez que tenga el valor cambiado, envialo
               onValue: chatProvider.sendMessage,
             ),
           ],

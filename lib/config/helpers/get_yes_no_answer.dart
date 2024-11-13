@@ -9,7 +9,7 @@ class GetYesNoAnswer {
 
   //obtener la respuesta
   Future<Message> getAnswer() async {
-    //Almacenar la peticion GET en una variable
+    //Almacenar la peticion GET en unada variable
     final response = await _dio.get('https://yesno.wtf/api');
 
 // Almacenar la data de la respuesta en una variable

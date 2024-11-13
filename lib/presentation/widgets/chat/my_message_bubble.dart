@@ -10,34 +10,39 @@ class MyMessageBubble extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return Column(
-      // Alinear mis mensajes a la derecha
       crossAxisAlignment: CrossAxisAlignment.end,
-
       children: [
-        // Fondo de los mensajes
         Container(
           decoration: BoxDecoration(
-              color: colors.primary,
-
-              // Hacer redondos los mensajes
-              borderRadius: BorderRadius.circular(20)),
-
-          // Separación (más bien ajuste de posición) de los mensajes
+              color: colors.primary, borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-
-            // Texto de los mensajes
             child: Text(
               message.text,
-              style: const TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
-
-        // Separación de mensajes
-        const SizedBox(
-          height: 5,
-        )
+        const SizedBox(height: 5),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message
+                  .formattedTimestamp, // Asegúrate de que 'message' tenga una propiedad 'time'
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(width: 5), // Espacio entre la hora y las palomitas
+            const Icon(
+              Icons.done_all,
+              size: 16,
+              color: Colors.blue, // Color de las palomitas (azul para "visto")
+            ),
+          ],
+        ),
       ],
     );
   }
